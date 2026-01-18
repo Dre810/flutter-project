@@ -1,0 +1,14 @@
+name: ecommerce_app
+description: A new Flutter project.
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.17.0
+  cloud_firestore: ^4.15.0
+  provider: ^6.1.2
