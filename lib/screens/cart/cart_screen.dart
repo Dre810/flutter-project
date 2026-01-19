@@ -12,7 +12,7 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Your Cart')),
       body: cart.items.isEmpty
-          ? const Center(child: Text('Your cart is empty'))
+          ? const Center(child: Text('Cart is empty'))
           : Column(
               children: [
                 Expanded(
@@ -21,11 +21,9 @@ class CartScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final item = cart.items[index];
                       return ListTile(
-                        leading: item.product.imageUrl.isNotEmpty
-                            ? Image.network(item.product.imageUrl, width: 50, height: 50)
-                            : Container(width: 50, height: 50, color: Colors.grey),
                         title: Text(item.product.name),
-                        subtitle: Text('KES ${item.totalPrice.toStringAsFixed(2)}'),
+                        subtitle:
+                            Text('KES ${item.totalPrice.toStringAsFixed(2)}'),
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
@@ -37,15 +35,17 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
-                      Text('Total: KES ${cart.total.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18)),
+                      Text(
+                        'Total: KES ${cart.total.toStringAsFixed(2)}',
+                        style: const TextStyle(fontSize: 18),
+                      ),
                       const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigate to checkout
-                          Navigator.pushNamed(context, '/checkout');
+                          // Next: checkout & payment
                         },
                         child: const Text('Proceed to Checkout'),
                       ),
