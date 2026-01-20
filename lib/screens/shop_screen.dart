@@ -1,10 +1,10 @@
-import 'package:ecommerce_app/screens/cart/cart_screen.dart';
+import 'package:ecommerce_app/screens/cart/cart_screen.dart' hide CartScreen;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
-import 'cart_screen.dart' ;
+import 'cart_screen.dart'  ;
 
 class ShopScreen extends StatelessWidget {
   const ShopScreen({super.key});
