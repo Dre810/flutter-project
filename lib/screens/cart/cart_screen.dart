@@ -21,13 +21,13 @@ class CartScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final item = cart.items[index];
                       return ListTile(
-                        title: Text(item.product.name),
+                        title: Text(item?.product.name),
                         subtitle:
-                            Text('KES ${item.totalPrice.toStringAsFixed(2)}'),
+                            Text('KES ${item?.totalPrice.toStringAsFixed(2)}'),
                         trailing: IconButton(
                           icon: const Icon(Icons.delete),
                           onPressed: () {
-                            cart.removeFromCart(item.product);
+                            cart.removeFromCart(item?.product);
                           },
                         ),
                       );
