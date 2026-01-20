@@ -81,18 +81,8 @@ class CartScreen extends StatelessWidget {
                   ),
                 ),
 
-                // TOTAL + CHECKOUT
                 Container(
                   padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 4,
-                      ),
-                    ],
-                  ),
                   child: Column(
                     children: [
                       Row(
@@ -135,22 +125,6 @@ class CartScreen extends StatelessWidget {
                 ),
               ],
             ),
-    );
-  }
-}
-
-class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Checkout'),
-      ),
-      body: const Center(
-        child: Text('Checkout Screen'),
-      ),
     );
   }
 }
