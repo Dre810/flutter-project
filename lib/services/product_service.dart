@@ -12,85 +12,73 @@ class ProductService {
     });
   }
 
-  /// RUN THIS ONCE ONLY
-  Future<void> seedProducts() async {
-    final products = [
-      Product(
-        name: 'Denim Jeans',
-        description: 'Classic blue denim jeans for everyday wear',
-        price: 3500,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Jeans_for_men.jpg/640px-Jeans_for_men.jpg',
-      ),
-      Product(
-        name: 'Nike Air Max',
-        description: 'Comfortable running shoes',
-        price: 12000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/6/6e/Nike_Air_Max_90.jpg',
-      ),
-      Product(
-        name: 'iPhone 15',
-        description: 'Latest Apple smartphone',
-        price: 150000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/3/32/IPhone_15_Pro.jpg',
-      ),
-      Product(
-        name: 'Samsung Watch',
-        description: 'Fitness tracking smartwatch',
-        price: 25000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/8/8e/Samsung_Galaxy_Watch.jpg',
-      ),
-      Product(
-        name: 'MacBook Pro',
-        description: 'High-performance laptop',
-        price: 280000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/1/1e/MacBook_Pro_16-inch.jpg',
-      ),
-      Product(
-        name: 'Sony Headphones',
-        description: 'Noise cancelling headphones',
-        price: 45000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/2/2e/Sony_WH-1000XM4.jpg',
-      ),
-      Product(
-        name: 'Canon Camera',
-        description: 'Professional mirrorless camera',
-        price: 320000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/5/5e/Canon_EOS_R6.jpg',
-      ),
-      Product(
-        name: 'Adidas Jacket',
-        description: 'Stylish sports jacket',
-        price: 8000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/3/33/Adidas_jacket.jpg',
-      ),
-      Product(
-        name: 'Gaming Chair',
-        description: 'Ergonomic gaming chair',
-        price: 22000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/4/45/Gaming_chair.jpg',
-      ),
-      Product(
-        name: 'Smart TV 55"',
-        description: 'Ultra HD Smart TV',
-        price: 70000,
-        imageUrl:
-            'https://upload.wikimedia.org/wikipedia/commons/9/9b/Smart_TV.jpg',
-      ),
-    ];
+ Future<void> seedProducts() async {
+  final products = [
+    Product(
+      name: 'Nike Air Max',
+      description: 'Comfortable running shoes',
+      price: 12000,
+      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+    ),
+    Product(
+      name: 'iPhone 15',
+      description: 'Latest Apple smartphone',
+      price: 150000,
+      imageUrl: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569',
+    ),
+    Product(
+      name: 'Canon Camera',
+      description: 'Professional mirrorless camera',
+      price: 320000,
+      imageUrl: 'https://images.unsplash.com/photo-1519183071298-a2962be96c0c',
+    ),
+    Product(
+      name: 'Adidas Jacket',
+      description: 'Stylish sports jacket',
+      price: 8000,
+      imageUrl: 'https://images.unsplash.com/photo-1520975916090-3105956dac38',
+    ),
+    Product(
+      name: 'Gaming Chair',
+      description: 'Ergonomic gaming chair',
+      price: 22000,
+      imageUrl: 'https://images.unsplash.com/photo-1598300053650-28a0bdf3a7d5',
+    ),
+    Product(
+      name: 'Samsung Watch',
+      description: 'Fitness tracking smartwatch',
+      price: 25000,
+      imageUrl: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b',
+    ),
+    Product(
+      name: 'Macbook Pro',
+      description: 'Powerful laptop',
+      price: 150000,
+      imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff',
+    ),
+    Product(
+      name: 'Sony TV',
+      description: 'Ultra HD smart TV',
+      price: 120000,
+      imageUrl: 'https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b',
+    ),
+    Product(
+      name: 'Bose Headphones',
+      description: 'Noise-cancelling headphones',
+      price: 40000,
+      imageUrl: 'https://images.unsplash.com/photo-1519183071298-a2962be96c0c',
+    ),
+    Product(
+      name: 'Dell Monitor',
+      description: '4K UHD monitor',
+      price: 60000,
+      imageUrl: 'https://images.unsplash.com/photo-1520975916090-3105956dac38',
+    ),
+  ];
 
-    for (final product in products) {
-      await _db.add(product.toMap());
-    }
+  for (final product in products) {
+    await _db.add(product.toMap());
   }
-
+}
   Future<void> addProduct(Product product) async {}
 }
