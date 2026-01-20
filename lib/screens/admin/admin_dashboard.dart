@@ -1,23 +1,8 @@
-import 'package:ecommerce_app/services/product_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AdminDashboard extends StatefulWidget {
+class AdminDashboard extends StatelessWidget {
   const AdminDashboard({super.key});
-
-  @override
-  State<AdminDashboard> createState() => _AdminDashboardState();
-}
-
-class _AdminDashboardState extends State<AdminDashboard> {
-
-  @override
-  void initState() {
-    super.initState();
-
-    // 🔥 TEMPORARY SEEDING — RUNS ONCE
-    ProductService().seedProducts();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +29,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
             SizedBox(height: 20),
             Text(
-              'Products have been seeded automatically.',
+              'You can now manage products, orders, and users.',
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 10),
             Text(
-              'Check Firestore → products collection.',
+              'Products are loaded from Firebase Firestore.',
               style: TextStyle(color: Colors.grey),
             ),
           ],
