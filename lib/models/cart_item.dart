@@ -12,8 +12,6 @@ class CartItem {
     required this.imageUrl,
     this.quantity = 1,
   });
-
-  get product => null;
-
-  get totalPrice => null;
+  double get totalPrice => price * quantity;
+  
 }

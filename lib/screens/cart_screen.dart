@@ -18,8 +18,7 @@ class CartScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () {
-              Provider.of<CartProvider>(context, listen: false)
-                  .clearCart();
+              cart.clearCart();
             },
           ),
         ],
@@ -37,21 +36,20 @@ class CartScreen extends StatelessWidget {
                   child: ListView.builder(
                     itemCount: cart.items.length,
                     itemBuilder: (context, index) {
-                      final item =
-                          cart.items.values.toList()[index];
+                      final item = cart.items.values.toList()[index];
 
                       return Card(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10, vertical: 6),
                         child: ListTile(
                           leading: Image.network(
-  item.imageUrl.isNotEmpty ? item.imageUrl : 'https://via.placeholder.com/150',
-  width: 60,
-  fit: BoxFit.cover,
-  errorBuilder: (_, __, ___) =>
-      const Icon(Icons.image_not_supported),
-),
-                          title: Text(item.name.isNotEmpty ? item.name : 'Unnamed Product'),
+                            item.imageUrl,
+                            width: 60,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) =>
+                                const Icon(Icons.image_not_supported),
+                          ),
+                          title: Text(item.name),
                           subtitle: Text(
                             'KES ${item.price} x ${item.quantity}',
                           ),
