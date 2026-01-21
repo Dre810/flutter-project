@@ -39,7 +39,7 @@ class CartScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Total: KES ${cart.total.toStringAsFixed(2)}',
+                        'Total: KES ${cart.totalAmount.toStringAsFixed(2)}',
                         style: const TextStyle(fontSize: 18),
                       ),
                       const SizedBox(height: 10),

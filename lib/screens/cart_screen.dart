@@ -14,6 +14,15 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Your Cart'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              Provider.of<CartProvider>(context, listen: false)
+                  .clearCart();
+            },
+          ),
+        ],
       ),
       body: cart.items.isEmpty
           ? const Center(
@@ -36,13 +45,13 @@ class CartScreen extends StatelessWidget {
                             horizontal: 10, vertical: 6),
                         child: ListTile(
                           leading: Image.network(
-                            item.imageUrl,
-                            width: 60,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) =>
-                                const Icon(Icons.image_not_supported),
-                          ),
-                          title: Text(item.name),
+  item.imageUrl.isNotEmpty ? item.imageUrl : 'https://via.placeholder.com/150',
+  width: 60,
+  fit: BoxFit.cover,
+  errorBuilder: (_, __, ___) =>
+      const Icon(Icons.image_not_supported),
+),
+                          title: Text(item.name.isNotEmpty ? item.name : 'Unnamed Product'),
                           subtitle: Text(
                             'KES ${item.price} x ${item.quantity}',
                           ),
