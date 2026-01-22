@@ -21,3 +21,5 @@ dependencies:
 
   # Payments (DOWNGRADED to avoid conflicts)
   flutterwave_standard: ^1.0.7
+
+  url_launcher: ^6.3.0

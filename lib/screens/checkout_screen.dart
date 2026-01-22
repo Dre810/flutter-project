@@ -1,50 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterwave_standard/flutterwave.dart';
 
-import '../providers/cart_provider.dart';
+import '../../providers/cart_provider.dart';
+import '../../services/payment_service.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
-
-  void _payWithFlutterwave(BuildContext context, double amount) async {
-    final customer = Customer(
-      name: "Customer",
-      phoneNumber: "0700000000",
-      email: "customer@example.com",
-    );
-
-    final flutterwave = Flutterwave(
-      context: context,
-      publicKey: "FLWPUBK_TEST-c00b1d7a00353423a575ef61dfc47442-X", // 🔴 replace later
-      currency: "KES",
-      redirectUrl: "https://google.com",
-      txRef: DateTime.now().millisecondsSinceEpoch.toString(),
-      amount: amount.toString(),
-      customer: customer,
-      paymentOptions: "card",
-      customization: Customization(
-        title: "E-Commerce App",
-        description: "Payment for your order",
-      ),
-      isTestMode: true,
-    );
-
-    final response = await flutterwave.charge();
-
-    if (response != null && response.status == "successful") {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Payment successful")),
-      );
-
-      Provider.of<CartProvider>(context, listen: false).clearCart();
-      Navigator.pop(context);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Payment cancelled or failed")),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,12 +18,13 @@ class CheckoutScreen extends StatelessWidget {
       body: cart.items.isEmpty
           ? const Center(
               child: Text(
-                'Your cart is empty',
+                'No items to checkout',
                 style: TextStyle(fontSize: 18),
               ),
             )
           : Column(
               children: [
+                // CART ITEMS
                 Expanded(
                   child: ListView.builder(
                     itemCount: cart.items.length,
@@ -74,7 +36,7 @@ class CheckoutScreen extends StatelessWidget {
                         leading: Image.network(
                           item.imageUrl.isNotEmpty
                               ? item.imageUrl
-                              : 'https://via.placeholder.com/150',
+                              : 'https://via.placeholder.com/100',
                           width: 50,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) =>
@@ -82,13 +44,17 @@ class CheckoutScreen extends StatelessWidget {
                         ),
                         title: Text(item.name),
                         subtitle: Text(
-                          'KES ${item.price} x ${item.quantity}',
+                          'KES ${item.price} × ${item.quantity}',
+                        ),
+                        trailing: Text(
+                          'KES ${(item.price * item.quantity).toStringAsFixed(2)}',
                         ),
                       );
                     },
                   ),
                 ),
 
+                // TOTAL + PAY BUTTON
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -109,28 +75,42 @@ class CheckoutScreen extends StatelessWidget {
                           const Text(
                             'Total',
                             style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             'KES ${cart.totalAmount.toStringAsFixed(2)}',
                             style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 16),
+
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {
-                            _payWithFlutterwave(
-                              context,
-                              cart.totalAmount,
-                            );
+                          onPressed: () async {
+                            try {
+                              await PaymentService.payWithCard();
+                            } catch (e) {
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    'Payment failed to start',
+                                  ),
+                                ),
+                              );
+                            }
                           },
-                          child: const Text('Pay with Card'),
+                          child: const Text(
+                            'Pay with Card',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
                     ],
