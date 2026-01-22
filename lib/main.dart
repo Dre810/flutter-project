@@ -4,11 +4,25 @@ import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'providers/cart_provider.dart';
-import 'screens/auth/login_screen.dart';
 
-void main() {
+// Screens
+import 'screens/auth/login_screen.dart';
+import 'screens/payment_success_screen.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CartProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -16,53 +30,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => CartProvider()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'E-Commerce App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const FirebaseInitializer(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'E-Commerce App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-    );
-  }
-}
 
-class FirebaseInitializer extends StatelessWidget {
-  const FirebaseInitializer({super.key});
+      // ROUTES
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const LoginScreen(),
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      ),
-      builder: (context, snapshot) {
-        // Still loading
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        }
+        // Stripe redirect after successful payment
+        '/payment-success': (context) => const PaymentSuccessScreen(),
 
-        // Firebase failed
-        if (snapshot.hasError) {
-          return Scaffold(
-            body: Center(
-              child: Text(
-                'Firebase init failed:\n${snapshot.error}',
-                textAlign: TextAlign.center,
-              ),
-            ),
-          );
-        }
-
-        // Firebase OK
-        return const LoginScreen();
+        // Temporary home route (change later)
+        '/home': (context) => const LoginScreen(),
       },
     );
   }
