@@ -7,7 +7,7 @@ import 'providers/cart_provider.dart';
 
 // Screens
 import 'screens/auth/login_screen.dart';
-import 'package:ecommerce_app/screens/payment_success_screen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const LoginScreen(),
 
-        // Stripe redirect after successful payment
-        '/payment-success': (context) => const PaymentSuccessScreen(),
+      
 
         // Temporary home route (change later)
         '/home': (context) => const LoginScreen(),
