@@ -7,7 +7,7 @@ import 'providers/cart_provider.dart';
 
 // Screens
 import 'screens/auth/login_screen.dart';
-import 'screens/payment_success_screen.dart';
+import 'package:ecommerce_app/screens/payment_success_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
