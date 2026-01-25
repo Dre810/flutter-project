@@ -1,31 +1,37 @@
 import 'dart:html' as html;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/cart_provider.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
 
-  // 🔗 YOUR Stripe Payment Link
   static const String stripePaymentLink =
-      'https://buy.stripe.com/test_cNi8wQdj3fDDffIb22gIo02';
+      'https://buy.stripe.com/test_cNi7sM2tKeTg87veJe7Zu00';
 
   void _openStripe() {
     html.window.open(stripePaymentLink, '_blank');
   }
 
-  void _showSuccess(BuildContext context) {
+  void _confirmPayment(BuildContext context) {
+    // ✅ Clear cart
+    Provider.of<CartProvider>(context, listen: false).clearCart();
+
+    // ✅ Show success dialog
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: const Text('Payment Successful 🎉'),
         content: const Text(
           'Thank you for your order.\n\n'
-          'If you completed payment on Stripe, your order is being processed.',
+          'Your payment was successful and your cart has been cleared.',
         ),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context); // go back to cart
+              Navigator.pop(context); // close dialog
+              Navigator.pop(context); // back to cart
             },
             child: const Text('OK'),
           ),
@@ -72,7 +78,7 @@ class CheckoutScreen extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                onPressed: () => _showSuccess(context),
+                onPressed: () => _confirmPayment(context),
                 child: const Text('Confirm Payment'),
               ),
             ),
