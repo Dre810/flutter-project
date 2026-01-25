@@ -8,7 +8,7 @@ class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});
 
   static const String stripePaymentLink =
-      'https://buy.stripe.com/test_cNi7sM2tKeTg87veJe7Zu00';
+      'https://buy.stripe.com/test_cNi8wQdj3fDDffIb22gIo02';
 
   void _openStripe() {
     html.window.open(stripePaymentLink, '_blank');
