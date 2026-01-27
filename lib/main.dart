@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'providers/cart_provider.dart';
-import 'screens/admin/admin_dashboard.dart';
+import 'screens/auth/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,10 +30,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'E-Commerce App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const AdminDashboard(), // 👈 THIS IS STEP 5
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const LoginScreen(), // ✅ BACK TO LOGIN
     );
   }
 }
