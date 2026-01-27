@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../models/product_model.dart';
-import '../../services/product_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddProductScreen extends StatefulWidget {
   const AddProductScreen({super.key});
@@ -10,72 +9,55 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  final ProductService _productService = ProductService();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController imageUrlController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final priceController = TextEditingController();
+  final imageController = TextEditingController();
 
-  String error = '';
+  Future<void> _saveProduct() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    await FirebaseFirestore.instance.collection('products').add({
+      'name': nameController.text.trim(),
+      'price': double.parse(priceController.text),
+      'imageUrl': imageController.text.trim(),
+      'createdAt': Timestamp.now(),
+    });
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Add Product')),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Form(
+          key: _formKey,
           child: Column(
             children: [
-              TextField(
+              TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(labelText: 'Product Name'),
+                validator: (v) => v!.isEmpty ? 'Enter name' : null,
               ),
-              TextField(
-                controller: descriptionController,
-                decoration: const InputDecoration(labelText: 'Description'),
-              ),
-              TextField(
+              TextFormField(
                 controller: priceController,
                 decoration: const InputDecoration(labelText: 'Price'),
                 keyboardType: TextInputType.number,
+                validator: (v) => v!.isEmpty ? 'Enter price' : null,
               ),
-              TextField(
-                controller: imageUrlController,
+              TextFormField(
+                controller: imageController,
                 decoration: const InputDecoration(labelText: 'Image URL'),
+                validator: (v) => v!.isEmpty ? 'Enter image URL' : null,
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  try {
-                    final product = Product(
-                      id: '',
-                      name: nameController.text.trim(),
-                      description: descriptionController.text.trim(),
-                      price: double.tryParse(priceController.text.trim()) ?? 0,
-                      imageUrl: imageUrlController.text.trim(),
-                    );
-                    await _productService.addProduct(product);
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Product added successfully')),
-                    );
-
-                    // Clear fields
-                    nameController.clear();
-                    descriptionController.clear();
-                    priceController.clear();
-                    imageUrlController.clear();
-                  } catch (e) {
-                    setState(() {
-                      error = 'Failed to add product';
-                    });
-                  }
-                },
-                child: const Text('Add Product'),
+                onPressed: _saveProduct,
+                child: const Text('Save Product'),
               ),
-              const SizedBox(height: 10),
-              Text(error, style: const TextStyle(color: Colors.red)),
             ],
           ),
         ),

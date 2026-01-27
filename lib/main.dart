@@ -4,10 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 import 'providers/cart_provider.dart';
-
-// Screens
-import 'screens/auth/login_screen.dart';
-
+import 'screens/admin/admin_dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,17 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-
-      // ROUTES
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const LoginScreen(),
-
-      
-
-        // Temporary home route (change later)
-        '/home': (context) => const LoginScreen(),
-      },
+      home: const AdminDashboard(), // 👈 THIS IS STEP 5
     );
   }
 }
