@@ -9,23 +9,9 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
-  final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final priceController = TextEditingController();
   final imageController = TextEditingController();
-
-  Future<void> _saveProduct() async {
-    if (!_formKey.currentState!.validate()) return;
-
-    await FirebaseFirestore.instance.collection('products').add({
-      'name': nameController.text.trim(),
-      'price': double.parse(priceController.text),
-      'imageUrl': imageController.text.trim(),
-      'createdAt': Timestamp.now(),
-    });
-
-    Navigator.pop(context);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,33 +19,38 @@ class _AddProductScreenState extends State<AddProductScreen> {
       appBar: AppBar(title: const Text('Add Product')),
       body: Padding(
         padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: nameController,
-                decoration: const InputDecoration(labelText: 'Product Name'),
-                validator: (v) => v!.isEmpty ? 'Enter name' : null,
-              ),
-              TextFormField(
-                controller: priceController,
-                decoration: const InputDecoration(labelText: 'Price'),
-                keyboardType: TextInputType.number,
-                validator: (v) => v!.isEmpty ? 'Enter price' : null,
-              ),
-              TextFormField(
-                controller: imageController,
-                decoration: const InputDecoration(labelText: 'Image URL'),
-                validator: (v) => v!.isEmpty ? 'Enter image URL' : null,
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveProduct,
-                child: const Text('Save Product'),
-              ),
-            ],
-          ),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Name'),
+            ),
+            TextField(
+              controller: priceController,
+              decoration: const InputDecoration(labelText: 'Price'),
+              keyboardType: TextInputType.number,
+            ),
+            TextField(
+              controller: imageController,
+              decoration: const InputDecoration(labelText: 'Image URL'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('products')
+                    .add({
+                  'name': nameController.text,
+                  'price': double.parse(priceController.text),
+                  'imageUrl': imageController.text,
+                });
+
+                if (!mounted) return;
+                Navigator.pop(context);
+              },
+              child: const Text('Save'),
+            ),
+          ],
         ),
       ),
     );

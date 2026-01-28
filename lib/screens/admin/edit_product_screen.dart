@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProductScreen extends StatefulWidget {
-  final String productId;
-  final Map<String, dynamic> productData;
+  final String id;
+  final String name;
+  final double price;
+  final String imageUrl;
 
   const EditProductScreen({
     super.key,
-    required this.productId,
-    required this.productData,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.imageUrl,
   });
 
   @override
@@ -23,25 +27,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void initState() {
     super.initState();
-    nameController =
-        TextEditingController(text: widget.productData['name']);
+    nameController = TextEditingController(text: widget.name);
     priceController =
-        TextEditingController(text: widget.productData['price'].toString());
+        TextEditingController(text: widget.price.toString());
     imageController =
-        TextEditingController(text: widget.productData['imageUrl']);
-  }
-
-  Future<void> _updateProduct() async {
-    await FirebaseFirestore.instance
-        .collection('products')
-        .doc(widget.productId)
-        .update({
-      'name': nameController.text.trim(),
-      'price': double.parse(priceController.text),
-      'imageUrl': imageController.text.trim(),
-    });
-
-    Navigator.pop(context);
+        TextEditingController(text: widget.imageUrl);
   }
 
   @override
@@ -54,12 +44,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
           children: [
             TextField(
               controller: nameController,
-              decoration: const InputDecoration(labelText: 'Product Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextField(
               controller: priceController,
-              keyboardType: TextInputType.number,
               decoration: const InputDecoration(labelText: 'Price'),
+              keyboardType: TextInputType.number,
             ),
             TextField(
               controller: imageController,
@@ -67,8 +57,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: _updateProduct,
-              child: const Text('Update Product'),
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('products')
+                    .doc(widget.id)
+                    .update({
+                  'name': nameController.text,
+                  'price': double.parse(priceController.text),
+                  'imageUrl': imageController.text,
+                });
+
+                if (!mounted) return;
+                Navigator.pop(context);
+              },
+              child: const Text('Update'),
             ),
           ],
         ),
